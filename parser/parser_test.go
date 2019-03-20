@@ -18,7 +18,7 @@ let foobar = 838383;
 	p := New(l)
 
 	program := p.ParseProgram()
-	checkParserErrprs(t, p)
+	checkParserErrors(t, p)
 	if program == nil {
 		t.Fatalf("ParseProgram() returned nil")
 	}
@@ -78,7 +78,7 @@ return 993322;
 	p := New(l)
 
 	program := p.ParseProgram()
-	checkParserErrprs(t, p)
+	checkParserErrors(t, p)
 
 	if len(program.Statements) != 3 {
 		t.Fatalf("program.Statements does not contain 3 statements, got=%d", len(program.Statements))
@@ -102,7 +102,7 @@ func TestIdentifierExpression(t *testing.T) {
 	l := lexer.New(input)
 	p := New(l)
 	program := p.ParseProgram()
-	checkParserErrprs(t, p)
+	checkParserErrors(t, p)
 
 	if len(program.Statements) != 1 {
 		t.Fatalf("program has not enough statements, got=%d", len(program.Statements))
@@ -130,7 +130,7 @@ func TestIntegerLiteralExpression(t *testing.T) {
 	l := lexer.New(input)
 	p := New(l)
 	program := p.ParseProgram()
-	checkParserErrprs(t, p)
+	checkParserErrors(t, p)
 
 	if len(program.Statements) != 1 {
 		t.Fatalf("program has not enough statements, got=%d", len(program.Statements))
@@ -165,7 +165,7 @@ func TestParsingPrefixExpressions(t *testing.T) {
 		l := lexer.New(tt.input)
 		p := New(l)
 		program := p.ParseProgram()
-		checkParserErrprs(t, p)
+		checkParserErrors(t, p)
 
 		if len(program.Statements) != 1 {
 			t.Fatalf("program has not enough statements, got=%d", len(program.Statements))
@@ -228,7 +228,7 @@ func TestParsingInfixExpressions(t *testing.T) {
 		l := lexer.New(tt.input)
 		p := New(l)
 		program := p.ParseProgram()
-		checkParserErrprs(t, p)
+		checkParserErrors(t, p)
 
 		if len(program.Statements) != 1 {
 			t.Fatalf("program has not enough statements, got=%d", len(program.Statements))
@@ -334,7 +334,7 @@ func TestOperatorPrecedenceParsing(t *testing.T) {
 		l := lexer.New(tt.input)
 		p := New(l)
 		program := p.ParseProgram()
-		checkParserErrprs(t, p)
+		checkParserErrors(t, p)
 
 		actual := program.String()
 		if actual != tt.expected {
@@ -343,7 +343,7 @@ func TestOperatorPrecedenceParsing(t *testing.T) {
 	}
 }
 
-func checkParserErrprs(t *testing.T, p *Parser) {
+func checkParserErrors(t *testing.T, p *Parser) {
 	errors := p.Errors()
 	if len(errors) == 0 {
 		return
