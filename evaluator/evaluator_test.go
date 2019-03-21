@@ -48,7 +48,7 @@ func testEval(input string) object.Object {
 func testIntegerObject(t *testing.T, obj object.Object, expected int64) bool {
 	result, ok := obj.(*object.Integer)
 	if !ok {
-		t.Errorf("object is no Integer. got=%t (%+v)", obj, obj)
+		t.Errorf("object is not Integer. got=%t (%+v)", obj, obj)
 		return false
 	}
 	if result.Value != expected {
@@ -62,7 +62,7 @@ func testIntegerObject(t *testing.T, obj object.Object, expected int64) bool {
 func testBooleanObject(t *testing.T, obj object.Object, expected bool) bool {
 	result, ok := obj.(*object.Boolean)
 	if !ok {
-		t.Errorf("object is no Boolean. got=%t (%+v)", obj, obj)
+		t.Errorf("object is not Boolean. got=%t (%+v)", obj, obj)
 		return false
 	}
 	if result.Value != expected {
