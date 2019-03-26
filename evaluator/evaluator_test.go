@@ -80,6 +80,19 @@ func TestStringLiteral(t *testing.T) {
 	}
 }
 
+func TestStringConcatenation(t *testing.T) {
+	input := `"Hello" + " " + "world!"`
+
+	evaluated := testEval(input)
+	str, ok := evaluated.(*object.String)
+	if !ok {
+		t.Fatalf("object is not String. got=%t (%+v)", evaluated, evaluated)
+	}
+	if str.Value != "Hello world!" {
+		t.Errorf("object has wrong value. got=%s", str.Value)
+	}
+}
+
 func TestBangOperator(t *testing.T) {
 	tests := []struct {
 		input    string
@@ -175,6 +188,10 @@ func TestErrorHandling(t *testing.T) {
 		{
 			"5; true + false; 5;",
 			"unknown operator: BOOLEAN + BOOLEAN",
+		},
+		{
+			`"hello" - "world"`,
+			"unknown operator: STRING - STRING",
 		},
 		{
 			"if (10 > 1) { true + false; }",
