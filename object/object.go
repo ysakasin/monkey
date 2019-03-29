@@ -16,6 +16,7 @@ const (
 	HASH_OBJ         = "HASH"
 	FUNCTION_OBJ     = "FUNCTION"
 	BUILTIN_OBJ      = "BUILTIN"
+	QUOTE_OBJ        = "QUOTE"
 	NULL_OBJ         = "NULL"
 	RETURN_VALUE_OBJ = "RETURN_VALUE"
 	ERROR_OBJ        = "ERROR"
@@ -159,6 +160,13 @@ type Builtin struct {
 
 func (f *Builtin) Type() ObjectType { return BUILTIN_OBJ }
 func (f *Builtin) Inspect() string  { return "builtin function" }
+
+type Quote struct {
+	Node ast.Node
+}
+
+func (q *Quote) Type() ObjectType { return QUOTE_OBJ }
+func (q *Quote) Inspect() string  { return "QUOTE(" + q.Node.String() + ")" }
 
 type Null struct{}
 
