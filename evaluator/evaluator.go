@@ -12,7 +12,7 @@ var (
 	FALSE = &object.Boolean{Value: false}
 )
 
-func Eval(node ast.Node, env *object.Enviroment) object.Object {
+func Eval(node ast.Node, env *object.Environment) object.Object {
 	switch node := node.(type) {
 	case *ast.Program:
 		return evalProgram(node, env)
@@ -98,7 +98,7 @@ func Eval(node ast.Node, env *object.Enviroment) object.Object {
 	return nil
 }
 
-func evalHashLiteral(node *ast.HashLiteral, env *object.Enviroment) object.Object {
+func evalHashLiteral(node *ast.HashLiteral, env *object.Environment) object.Object {
 	pairs := make(map[object.HashKey]object.HashPair)
 
 	for keyNode, valueNode := range node.Pairs {
@@ -137,7 +137,7 @@ func applyFunction(fn object.Object, args []object.Object) object.Object {
 	}
 }
 
-func extendFunctionEnv(fn *object.Function, args []object.Object) *object.Enviroment {
+func extendFunctionEnv(fn *object.Function, args []object.Object) *object.Environment {
 	env := object.NewEnclosedEnvironment(fn.Env)
 
 	for paramIdx, param := range fn.Parameters {
@@ -155,7 +155,7 @@ func unwrapReturnValue(obj object.Object) object.Object {
 	return obj
 }
 
-func evalProgram(program *ast.Program, env *object.Enviroment) object.Object {
+func evalProgram(program *ast.Program, env *object.Environment) object.Object {
 	var result object.Object
 
 	for _, statement := range program.Statements {
@@ -172,7 +172,7 @@ func evalProgram(program *ast.Program, env *object.Enviroment) object.Object {
 	return result
 }
 
-func evalBlockStatement(block *ast.BlockStatement, env *object.Enviroment) object.Object {
+func evalBlockStatement(block *ast.BlockStatement, env *object.Environment) object.Object {
 	var result object.Object
 
 	for _, statement := range block.Statements {
@@ -189,7 +189,7 @@ func evalBlockStatement(block *ast.BlockStatement, env *object.Enviroment) objec
 	return result
 }
 
-func evalExpressions(exps []ast.Expression, env *object.Enviroment) []object.Object {
+func evalExpressions(exps []ast.Expression, env *object.Environment) []object.Object {
 	var result []object.Object
 
 	for _, e := range exps {
@@ -203,7 +203,7 @@ func evalExpressions(exps []ast.Expression, env *object.Enviroment) []object.Obj
 	return result
 }
 
-func evalIfExpression(ie *ast.IfExpression, env *object.Enviroment) object.Object {
+func evalIfExpression(ie *ast.IfExpression, env *object.Environment) object.Object {
 	condition := Eval(ie.Condition, env)
 	if isError(condition) {
 		return condition
@@ -345,7 +345,7 @@ func evalHashIndexExpression(hash, index object.Object) object.Object {
 	return pair.Value
 }
 
-func evalIdentifier(node *ast.Identifier, env *object.Enviroment) object.Object {
+func evalIdentifier(node *ast.Identifier, env *object.Environment) object.Object {
 	val, ok := env.Get(node.Value)
 	if ok {
 		return val
